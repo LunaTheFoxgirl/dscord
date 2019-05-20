@@ -111,7 +111,12 @@ class GatewayClient {
 
     // Start the main task
     this.log.infof("Starting connection to Gateway WebSocket (%s)", this.cachedGatewayURL);
-    this.sock = connectWebSocket(URL(this.cachedGatewayURL));
+
+    //HACK: vibe-d won't allow connections to wss:// addresses, so we use HTTPS.
+    URL url = URL(this.cachedGatewayURL);
+    url.schema = "https";
+    this.sock = connectWebSocket(url);
+
     runTask(toDelegate(&this.run));
   }
 
