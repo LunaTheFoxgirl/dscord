@@ -102,6 +102,20 @@ class GuildMember : IModel {
   bool hasRole(Snowflake id) {
     return this.roles.canFind(id);
   }
+
+  void addRole(Snowflake id) {
+    roles ~= id;
+    updateRoles();
+  }
+
+  void removeRole(Snowflake id) {
+    roles = roles.remove(id);
+    updateRoles();
+  }
+
+  private void updateRoles() {
+    this.client.api.guildsMembersSetRoles(this.guildID, id, roles);
+  }
 }
 
 class Guild : IModel, IPermissible {

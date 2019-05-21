@@ -236,6 +236,20 @@ class APIClient {
   }
 
   /**
+    Modifies guild member
+  */
+  void guildsMembersModify(Snowflake guild, Snowflake id, VibeJSON obj) {
+    this.requestJSON(Routes.GUILDS_MEMBERS_MODIFY(guild, id), obj).ok();
+  }
+
+  /**
+    Set roles for guild member
+  */
+  void guildsMembersSetRoles(Snowflake guild, Snowflake id, Snowflake[] snowflakes) {
+    guildsMembersModify(guild, id, VibeJSON(["roles": VibeJSON(array(map!((sf) => VibeJSON(sf))(snowflakes)))]));
+  }
+
+  /**
     Removes (kicks) a user from a Guild.
   */
   void guildsMembersKick(Snowflake id, Snowflake user) {
